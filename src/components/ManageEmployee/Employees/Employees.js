@@ -10,7 +10,7 @@ function FilterTableComponent() {
         () => [
             {
                 Header: 'Name',
-                accessor: 'Name',
+                accessor: 'Name'
             },
             {
                 Header: 'UserName',
@@ -46,7 +46,7 @@ function FilterTableComponent() {
                     const testdata = employees.map(key => {
                         const employee = response.data[key]
                         return {
-                            // Key: key,
+                            Key: key,
                             Name: employee.Name,
                             UserName: employee.UserName,
                             Email: employee.Email,

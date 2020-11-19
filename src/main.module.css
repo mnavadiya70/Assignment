@@ -14,8 +14,34 @@
 }
 
 thead {
-    font-weight: bold;
-    
+    font-weight: bold; 
+}
+
+.navItems{
+    flex-flow: row;
+}
+
+.navItem{
+    margin: 0;
+    display: inline-flex;
+    height: 100%;
+    width: auto;
+    margin: 0px 10px;
+    align-items: center;
+}
+
+.navItem a{
+    text-decoration: none;
+    color: black;
+    padding: 16px 10px;
+}
+
+.navItem a:hover,
+.navItem a:active,
+.navItem a.active{
+    text-decoration: none;
+    border-bottom: 4px solid #f1923f;
+    color: #f1923f;
 }
 
 .StyleHeader{
@@ -23,28 +49,32 @@ thead {
     cursor: pointer;
 }
 
+.btnForgorPass{
+    border: 0px solid;
+    background-color: coral;
+    padding: 10px 20px;
+    margin-top: 10px;
+    color: white;
+    font-weight: bold;
+}
+
 .ButtonSave{
-    float: left;
-    clear: left;
     border: 0px solid;
     background-color: #e27b36;
     font-size: 20px;
     padding: 10px;
     height: auto;
     color: white;
-    margin-left: 100px;
-    margin-top: 10px;
+    margin-top: 10px 20px;
 }
 
 .ButtonCancel{
     border: 0px solid;
     background-color: #bc581e;
     font-size: 20px;
-    padding: 10px;
+    padding: 10px 20px;
     height: auto;
     color: white;
-    float: left;
-    margin-left: 20px;
     margin-top: 10px;
 }
 
@@ -87,42 +117,29 @@ thead {
     font-size: 20px;
     padding: 10px;
     color: white;
+    float: right;
 }
 
 .header{
     color: #ff972f;
 }
 
+.tableDiv{
+    max-width: 1500px;
+    max-height: 1000px;
+    overflow: scroll;
+}
+
 .displayLabel {
-	float: left;
-	clear: left;
-	padding-top: 5px;
+    margin-bottom: 0px;
 	width: 175px;
-	font-weight: bold;
+    font-weight: bold;
+    text-align: left;
 }
 
 .displayField {
-	float: left;
     padding-top: 5px;
     margin-top: 10px;
-}
-
-.ManageEmp li{
-    display: inline-block;
-    margin: 0px;
-    padding: 0 20px;
-    float: left;
-}
-
-.ManageEmp a{
-    text-decoration: none;
-    color: black;
-}
-
-.ManageEmp a:hover,
-.ManageEmp a:active,
-.ManageEmp a.active{
-    color: #f1923f;
 }
 
 .pagination {
@@ -156,3 +173,42 @@ thead {
     border-radius: unset
 }
   
+@media(max-width: 600px){
+    .navItems{
+        flex-flow: column;
+        display: flex;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        height: 100%;
+    }
+    
+    .navItem{
+        margin: 10px 0;
+        display: block;
+        width: 100%;
+    }
+    
+    .navItem a{
+        text-decoration: none;
+        color: black;
+        width: 100%;
+    }
+    
+    .navItem a:hover,
+    .navItem a:active,
+    .navItem a.active{
+        text-decoration: none;
+        border-bottom: 4px solid #40a4c8;
+        color: #f1923f;
+    }
+
+    .btnLogout{
+        border: 0px solid;
+        background-color: #bc581e;
+        font-size: 20px;
+        padding: 10px;
+        color: white;
+        float: none;
+    }
+}

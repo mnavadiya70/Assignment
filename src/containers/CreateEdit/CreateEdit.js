@@ -3,7 +3,6 @@ import axios from '../../axios';
 import { Link } from 'react-router-dom';
 
 import Unauthorized from '../../components/Unauthorized/Unauthorized';
-import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Input from '../../components/Input/Input';
 import classes from '../../main.module.css';
 
@@ -83,16 +82,18 @@ class Create extends Component {
     }
 
     render() {
+        localStorage.setItem('PageSize', 5);
+        localStorage.setItem('PageIndex', 1);
         const isAuthenticated = localStorage.getItem('authenticated');
         return (
-            isAuthenticated
-                ? <Aux>
+            isAuthenticated === "true"
+                ? <div style={{textAlign: 'center'}}>
                     <h4 className={classes.header}>Add Employee Details</h4>
                     <form onSubmit={this.addEmployee}>
                     {
                         employee.map(emp => {
                             return (
-                                <Input key={emp.label} label={emp.label} fieldType="input" name={emp.label} type="text" emp={emp} value={this.state[emp.label]} change={this.inputChangeHandler}/>
+                                <Input key={emp.label} label={emp.label} fieldType="input" name={emp.label} type={emp.label === "Email" ? "email" : "text"} emp={emp} value={this.state[emp.label]} change={this.inputChangeHandler}/>
                                 // <div key={emp.label}>
                                 //     <label className={classes.displayLabel}>{emp.label}</label>
                                 //     <input className={classes.displayField} type='text' name={emp.label} value={this.state[emp.label]} onChange={this.inputChangeHandler} />
@@ -105,7 +106,7 @@ class Create extends Component {
                         <button className={classes.ButtonCancel}>Cancel</button>
                     </Link>
                     </form>
-                </Aux>
+                </div>
                 : <Unauthorized />
         );
     }

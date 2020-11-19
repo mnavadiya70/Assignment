@@ -1,19 +1,13 @@
 import { Component } from 'react';
 import ColumnResizer from "react-column-resizer";
 import ReactPaginate from 'react-paginate';
-import {CSVLink, CSVDownload} from 'react-csv';
+import { CSVLink } from 'react-csv';
 // import ReactTable from "react-table";
-// import {
-//     DragDropProvider,
-//     TableColumnReordering,
-//   } from '@devexpress/dx-react-grid-material-ui';
 
 import axios from './axios';
-import Aux from './hoc/Auxiliary/Auxiliary';
 import Employee from './components/ManageEmployee/Employees/Employee/Employee';
 import Unauthorized from './components/Unauthorized/Unauthorized';
 import classes from './main.module.css';
-import ManageEmployee from './components/ManageEmployee/ManageEmployee';
 import Columns from './components/Columns/Columns';
 
 // const columns = [{  
@@ -24,7 +18,7 @@ import Columns from './components/Columns/Columns';
 //     Header: 'Name',  
 //     accessor: 'Name' ,
 //     }
-   
+
 //    ,{  
 //    Header: 'Username',  
 //    accessor: 'Username' ,
@@ -146,7 +140,7 @@ class Employees extends Component {
     columnSortHandler = (columnName) => {
         let sortDir = this.state.sortDirection;
         const employees = [...this.state.employees];
-        if(sortDir === 'asc'){
+        if (sortDir === 'asc') {
             if (columnName !== null) {
                 employees.sort((a, b) => {
                     if (a[columnName] <= b[columnName]) {
@@ -160,7 +154,7 @@ class Employees extends Component {
             }
             this.state.sortDirection = 'desc';
         }
-        if(sortDir === 'desc'){
+        if (sortDir === 'desc') {
             if (columnName !== null) {
                 employees.sort((a, b) => {
                     if (a[columnName] >= b[columnName]) {
@@ -174,8 +168,8 @@ class Employees extends Component {
             }
             this.state.sortDirection = 'asc';
         }
-        
-        
+
+
 
         this.setState({ employees: employees });
     }
@@ -207,7 +201,7 @@ class Employees extends Component {
             || emp.Company.toLowerCase().includes(this.state.SearchUserTerm.toLowerCase()));
         return (
             isAuthenticated
-                ? <Aux>
+                ? <>
                     {/* <ManageEmployee /> */}
                     <CSVLink data={this.state.employees} filename="data.csv">Download me</CSVLink>
                     <h3 className={classes.header}>Users</h3>
@@ -221,10 +215,10 @@ class Employees extends Component {
                             <input type="number" name="perPage" onChange={(event) => this.inputChangeGetData(event)} />
                         </div>
                     </div>
-                    <br/>
+                    <br />
                     <Columns cols={this.state.cols} change={this.handleChangeCheck} />
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     {/* <DragDropProvider /> */}
                     {/* <ReactTable ref={(r) => this.reactTable = r}
                                 data={this.state.employees} columns={columns} filterable
@@ -288,7 +282,7 @@ class Employees extends Component {
                         containerClassName={classes.pagination}
                         subContainerClassName={"pages " + classes.pagination}
                         activeClassName={"active"} />
-                </Aux>
+                </>
                 : <Unauthorized />
         );
     }
