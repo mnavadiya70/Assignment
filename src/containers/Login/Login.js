@@ -52,17 +52,6 @@ class Login extends Component {
     render() {
         return (
             <div style={{ textAlign: 'center' }}>
-
-                {/* <div>
-                    <label>UserName</label>
-                    <input type="text" name="UserName" onChange={this.OnInputHandler} />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" name="Password" onChange={this.OnInputHandler} />
-                </div> */}
-
-
                 {
                     this.state.show
                         ? <>

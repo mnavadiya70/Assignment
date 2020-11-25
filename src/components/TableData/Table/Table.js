@@ -4,6 +4,7 @@ import { useTable, useFilters, useGlobalFilter, useSortBy, usePagination, useCol
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { CSVLink } from 'react-csv';
 
 import axios from '../../../axios';
 import DefaultColumnFilter from '../DefaultColumnFilter/DefaultColumnFilter';
@@ -93,7 +94,8 @@ export default function Table({ columns, data }) {
 
     localStorage.setItem('PageSize', pageSize);
     localStorage.setItem('PageIndex', pageIndex);
-
+    let selectedData = [];
+    console.log(selectedData);
     const currentColOrder = React.useRef();
 
     return (
@@ -114,9 +116,13 @@ export default function Table({ columns, data }) {
             </div>
             <div>
                 <div>
-                    <div style={{ float: 'left' }} >
-                        <CsvData data={preGlobalFilteredRows} columns={columns} />
+                    <div style={{ float: 'left', clear: 'left' }} >
+                        <CsvData data={preGlobalFilteredRows} columns={columns} /><br/>
+                        <CSVLink data={selectedData} filename="selecteddata.csv">
+                            <b>Click here to export selected data</b>
+                        </CSVLink>
                     </div>
+                    <br/>
                     <div style={{ float: 'right' }}>
                         <label><b>Per page record : </b></label>
                         <input type="Number" value={pageSize}
@@ -148,7 +154,6 @@ export default function Table({ columns, data }) {
                                     }}
 
                                     onDragUpdate={(dragUpdateObj, b) => {
-
                                         const colOrder = [...currentColOrder.current];
                                         const sIndex = dragUpdateObj.source.index;
                                         const dIndex =
@@ -187,13 +192,15 @@ export default function Table({ columns, data }) {
                                                                         }}
                                                                     ><div>{column.canFilter ? column.render('Filter') : null}
                                                                         </div>
-                                                                        <span>
-                                                                            {column.isSorted
+                                                                        {/* <span>
+                                                                            {
+                                                                                column.isSorted
                                                                                 ? column.isSortedDesc
                                                                                     ? ' '
                                                                                     : ' '
-                                                                                : ''}
-                                                                        </span>
+                                                                                 : ' '
+                                                                                }
+                                                                        </span> */}
                                                                         {column.render("Header")}
                                                                     </div></td><ColumnResizer className="columnResizer" /></>
                                                             );
@@ -210,10 +217,19 @@ export default function Table({ columns, data }) {
                         <tbody {...getTableBodyProps()}>
                             {page.map((row, i) => {
                                 prepareRow(row)
+                                if (row.isSelected) {
+                                    if (selectedData.length === 0) {
+                                        selectedData.push(row.original);
+                                    }
+                                    else {
+                                        if (selectedData.filter(ele => ele.Key === row.original.Key).length === 0) {
+                                            selectedData.push(row.original);
+                                        }
+                                    }
+                                }
                                 return (
                                     <tr {...row.getRowProps()} style={{ ...setElementStyle(row) }} key={row.id}>
                                         {row.cells.map(cell => {
-
                                             return (
                                                 <><td {...cell.getCellProps()}>{cell.render('Cell')}</td><td></td></>
                                             )
@@ -221,11 +237,11 @@ export default function Table({ columns, data }) {
                                         <td>
                                             <Link to={`/edit/${row.original.Key}`} className={classes.ButtonEdit}>Edit</Link>&nbsp;&nbsp;
                                             <button className={classes.ButtonDelete} onClick={() => {
-                                                return (
+                                                if(window.confirm("Are you sure you want to delete this record?")){
                                                     axios.delete('/users/' + row.original.Key + '.json').then(response => {
-                                                        window.location.reload();
+                                                        this.props.location.reload();
                                                     })
-                                                )
+                                                }
                                             }}>Delete</button>
                                         </td>
                                     </tr>
@@ -255,6 +271,7 @@ export default function Table({ columns, data }) {
                         </strong>
                     </li>
                 </ul>
-            </div></>
+            </div>
+        </>
     )
 }
